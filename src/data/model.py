@@ -49,7 +49,7 @@ class Model:
     def del_project(self, project_id):
         """
         Deletes project identified by passed id.
-        :param project_id: uuid
+        :param project_id: int
         :return:
         """
         self.es.delete(
@@ -75,4 +75,27 @@ class Model:
         )
 
     def get_contributor_json(self, contrib_id):
-        pass
+        """
+        Returns json representation of contributor identified by
+        passed id.
+        :param contrib_id: int
+        :return:
+        """
+        return self.es.get(
+            index=CONTRIB_INDEX,
+            doc_type=CONTRIB_DOC_TYPE,
+            id=contrib_id
+        )
+
+    def del_contributor(self, contrib_id):
+        """
+        Deletes contributor identified by passed contributor id.
+        :param contrib_id: int
+        :return:
+        """
+
+        self.es.delete(
+            index=CONTRIB_INDEX,
+            doc_type=CONTRIB_DOC_TYPE,
+            id=contrib_id
+        )

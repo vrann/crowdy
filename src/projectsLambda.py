@@ -6,6 +6,10 @@ from data.model import Model
 from deco import aws_lambda
 
 
+# ---------------------------------------------------------------------
+# Project lambdas
+
+
 @aws_lambda
 def create_project(event, context):
     """
@@ -61,6 +65,10 @@ def get_project_by_id(event, context):
     }
 
 
+# ---------------------------------------------------------------------
+# Contributor lambdas
+
+
 @aws_lambda
 def add_contributor(event, context):
     """
@@ -72,7 +80,37 @@ def add_contributor(event, context):
        projects ({})
     """
     data = json.loads(event['body'])
+    # create and store contributor created from passed data
     model.store_contributor(Contributor(**data))
+
+
+@aws_lambda
+def get_contributor(event, context):
+    """
+    Gets contributor identified by id passed in data.
+    :param event:
+    :param context:
+    :return: json representation of contributor data.
+    """
+    data = json.loads(event['body'])
+    contrib_id = data['id']
+    return {
+        'statusCode': 200,
+        'body': json.dumps(model.get_contributor_json(contrib_id))
+    }
+
+
+@aws_lambda
+def delete_contributor(event, context):
+    """
+    Deletes existing contributor of passed id.
+    :param event:
+    :param context:
+    :return:
+    """
+    data = json.loads(event['body'])
+    contrib_id = data['id']
+    model.del_project(contrib_id)
 
 
 @aws_lambda
