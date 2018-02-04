@@ -20,7 +20,6 @@ class Project:
         self.created_date = None
         self.due_date = None
         self.technologies = set()
-        self.pledges = {}
 
         # initialize fields from passed kwargs
         for k, v in kwargs.items():
@@ -31,9 +30,9 @@ class Project:
 
     def add_contributor_hours(self, contrib_id, hours):
         try:
-            self.pledges[contrib_id] += hours
+            self.contributors[contrib_id] += hours
         except KeyError:
-            self.pledges[contrib_id] = hours
+            self.contributors[contrib_id] = hours
 
     @property
     def as_json(self) -> str:
@@ -41,12 +40,11 @@ class Project:
             'id': self.id,
             'name': self.name,
             'git_link': self.git_link,
-            'contrib': self.contributors,
+            'contributors': self.contributors,
             'created_date': self.created_date,
             'due_date': self.due_date,
             'hours_goal': self.hours_goal,
             'technologies': self.technologies,
-            'pledges': self.pledges,
         })
 
     @classmethod
