@@ -1,9 +1,9 @@
 import json
 
-from ..data.project import Project
-from ..data.contrib import Contributor
-from ..data.model import Model
-from ..deco import aws_lambda
+from data.project import Project
+from data.contrib import Contributor
+from data.model import Model
+from deco import aws_lambda
 
 
 def my_handler(event, context):

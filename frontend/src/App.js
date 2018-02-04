@@ -11,13 +11,13 @@ import {
 const App = () => (
   <Router>
     <div>
-      <ul>
+      {/* <ul>
         <li><Link to="">Home</Link></li>
         <li><Link to="crowdsourcing">Crowdsourcing</Link></li>
         <li><Link to="chart">Chart</Link></li>
       </ul>
 
-      <hr/>
+      <hr/> */}
 
       <Route exact path="" component={Crowdsourcing}/>
       <Route path="chart" component={Chart}/>
