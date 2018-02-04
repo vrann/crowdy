@@ -2,10 +2,13 @@ import elasticsearch as es
 import os
 
 from .project import Project
+from .contrib import Contributor
 
 ELASTIC_HOST = os.environ['ELASTIC_HOST']
 PROJECTS_INDEX = 'projects'
 PROJECTS_DOC_TYPE = 'project'
+CONTRIB_INDEX = 'contributors'
+CONTRIB_DOC_TYPE = 'contrib'
 
 
 class Model:
@@ -14,6 +17,9 @@ class Model:
     """
     def __init__(self):
         self.es = es.Elasticsearch([{'host': ELASTIC_HOST}])
+
+    # -----------------------------------------------------------------
+    # PROJECT METHODS
 
     def store_project(self, project: Project):
         """
@@ -38,6 +44,34 @@ class Model:
             index=PROJECTS_INDEX,
             doc_type=PROJECTS_DOC_TYPE,
             id=project_id
+        )
+
+    def del_project(self, project_id):
+        """
+        Deletes project identified by passed id.
+        :param project_id: uuid
+        :return:
+        """
+        self.es.delete(
+            index=PROJECTS_INDEX,
+            doc_type=PROJECTS_DOC_TYPE,
+            id=project_id
+        )
+
+    # -----------------------------------------------------------------
+    # CONTRIBUTOR METHODS
+
+    def store_contributor(self, contrib: 'Contributor'):
+        """
+        Stores passed contributor in db.
+        :param contrib: Contributor
+        :return: None
+        """
+        self.es.create(
+            index=CONTRIB_INDEX,
+            doc_type=CONTRIB_DOC_TYPE,
+            id=contrib.id,
+            body=contrib.as_json
         )
 
     def get_contributor_json(self, contrib_id):

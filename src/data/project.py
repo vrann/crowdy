@@ -12,12 +12,14 @@ class Project:
     """
 
     def __init__(self, project_id=None, **kwargs):
-        self.id = project_id or uuid.uuid4()
+        self.id = project_id or uuid.uuid4().int
         self.name = ''
         self.git_link = ''
         self.contributors = {}
         self.hours_goal = 0
+        self.created_date = None
         self.due_date = None
+        self.technologies = set()
         self.pledges = {}
 
         # initialize fields from passed kwargs
