@@ -15,6 +15,8 @@ def aws_lambda(f):
     """
     Wraps passed function, catching common exceptions to reduce code
     duplication.
+    Also provides a default success response code for when return value
+    is None.
 
     status codes for common exceptions:
         ValueError: 400
@@ -31,7 +33,7 @@ def aws_lambda(f):
             if r is None:
                 r = {
                     'statusCode': 200,
-                    'body': ''
+                    'body': json.dumps({'input': event})
                 }
             return r
         except Exception as e:

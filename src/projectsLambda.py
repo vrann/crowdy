@@ -6,18 +6,6 @@ from data.model import Model
 from deco import aws_lambda
 
 
-def my_handler(event, context):
-    data = json.loads(event['body'])
-    message = 'Hello {} {}!'.format(data['first_name'],
-                                    data['last_name'])
-
-    return {
-      "statusCode": 200,
-      "body": json.dumps({'input': event,
-                 'message' : message})
-    };
-
-
 @aws_lambda
 def create_project(event, context):
     """
@@ -42,10 +30,6 @@ def create_project(event, context):
     # data validation for the new Project, rather than
     # duplicating that code here.
     model.store_project(Project(**data))
-    return {
-        "statusCode": 200,
-        'body': json.dumps({'input': event})
-    }
 
 
 @aws_lambda
@@ -59,10 +43,6 @@ def delete_project(event, context):
     data = json.loads(event['body'])
     project_id = data['id']
     model.del_project(project_id)
-    return {
-        'statusCode': 200,
-        'body': ''
-    }
 
 
 @aws_lambda
