@@ -126,7 +126,7 @@ def pledge_hours(event, context):
     contrib_id = data['contrib_id']
     project_id = data['project_id']
     n_hours = data['hours']
-    # todo
+    model.add_pledged_hours(contrib_id, project_id, n_hours)
 
 
 model = Model()

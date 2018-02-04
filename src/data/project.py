@@ -29,6 +29,12 @@ class Project:
             else:
                 raise ValueError('Unexpected kwd: {}'.format(k))
 
+    def add_contributor_hours(self, contrib_id, hours):
+        try:
+            self.pledges[contrib_id] += hours
+        except KeyError:
+            self.pledges[contrib_id] = hours
+
     @property
     def as_json(self) -> str:
         return json.dumps({

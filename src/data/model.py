@@ -46,6 +46,14 @@ class Model:
             id=project_id
         )
 
+    def get_project(self, project_id):
+        """
+        Gets project from id
+        :param project_id: int
+        :return: Project
+        """
+        return Project.from_json(self.get_project_json(project_id))
+
     def del_project(self, project_id):
         """
         Deletes project identified by passed id.
@@ -87,6 +95,14 @@ class Model:
             id=contrib_id
         )
 
+    def get_contributor(self, contrib_id):
+        """
+        Gets Contributor from id.
+        :param contrib_id: int
+        :return: Contributor
+        """
+        return Contributor.from_json(self.get_contributor_json(contrib_id))
+
     def del_contributor(self, contrib_id):
         """
         Deletes contributor identified by passed contributor id.
@@ -99,3 +115,13 @@ class Model:
             doc_type=CONTRIB_DOC_TYPE,
             id=contrib_id
         )
+
+    def add_pledged_hours(self, contrib_id: int, project_id: int, hours):
+        contributor = self.get_contributor(contrib_id)
+        project = self.get_project(project_id)
+
+        contributor.add_pledged_hours(project_id, hours)
+        project.add_contributor_hours(contrib_id, hours)
+
+        self.store_contributor(contributor)
+        self.store_project(project)
