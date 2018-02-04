@@ -3,6 +3,7 @@ Stores lambda function decorator for wrapping lambda functions,
 minimizing duplicated code
 """
 import json
+import logging
 
 
 codes = {
@@ -26,6 +27,7 @@ def aws_lambda(f):
     :return: callable wrapper
     """
     def wrapper(event, context):
+        logger = logging.getLogger(__name__)
         try:
             # if no return value is given by wrapped func,
             # return default status code 200 response.
@@ -37,10 +39,14 @@ def aws_lambda(f):
                 }
             return r
         except Exception as e:
-            # if exception is thrown, return exception text,
+            # if exception is thrown, log exception,
+            # return exception text,
             # and return status code associated with passed
             # exception type
+            logger.info(
+                'Call to {} resulted in exception'.format(f.__name__), e)
             exc_type = type(e)
+            # get exception type for code lookup and msg
             if exc_type is type:
                 exc_type = e
                 msg = e.__name__
