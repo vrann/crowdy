@@ -6,6 +6,8 @@ import json
 import logging
 
 
+DEFAULT_EXCEPTION_CODE = 500
+
 codes = {
     KeyError: 404,
     ValueError: 400
@@ -54,7 +56,7 @@ def aws_lambda(f):
                 msg = str(e)
             # get default exception code for raised Exception.
             # default to code 500 if exception is not in codes dict.
-            code = codes.get(exc_type, 500)
+            code = codes.get(exc_type, DEFAULT_EXCEPTION_CODE)
             return {
                 'statusCode': code,
                 'body': json.dumps({'input': event, 'message': msg})

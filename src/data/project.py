@@ -36,8 +36,10 @@ class Project:
             'name': self.name,
             'git_link': self.git_link,
             'contrib': self.contributors,
+            'created_date': self.created_date,
             'due_date': self.due_date,
             'hours_goal': self.hours_goal,
+            'technologies': self.technologies,
             'pledges': self.pledges,
         })
 
@@ -50,4 +52,4 @@ class Project:
         :return: Project
         :raises ValueError if invalid data passed.
         """
-        return Project(**json.loads(json_s))
+        return cls(**json.loads(json_s))

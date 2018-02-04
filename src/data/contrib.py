@@ -21,5 +21,13 @@ class Contributor:
                 raise ValueError('Unexpected kwd received: {}'.format(k))
 
     @property
-    def as_json(self):
-        pass
+    def as_json(self) -> str:
+        return json.dumps({
+            'id': self.id,
+            'name': self.name,
+            'projects': self.projects
+        })
+
+    @classmethod
+    def from_json(cls, json_str: str) -> 'Contributor':
+        return cls(**json.loads(json_str))
