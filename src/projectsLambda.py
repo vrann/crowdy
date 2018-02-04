@@ -1,7 +1,7 @@
 import json
 
-from ..data.project import Project
-from ..data.model import Model
+from data.project import Project
+from data.model import Model
 
 
 def my_handler(event, context):
@@ -39,6 +39,7 @@ def create_project(event, context):
         # duplicating that code here.
         model.store_project(Project(**data))
     except ValueError as e:
+        print(e)
         return {
             'statusCode': 400,
             'body': json.dumps({'input': event, 'message': str(e)})
